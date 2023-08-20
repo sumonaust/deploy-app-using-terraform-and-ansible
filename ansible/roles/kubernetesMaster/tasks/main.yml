@@ -1,0 +1,33 @@
+---
+- name: Create a directory for the kubernetes
+  file:
+    path: ./kubernetes
+    state: directory
+    
+- name: Copy Kubernetes files to the remote machine
+  copy:
+    src: ../../../kubernetes/Master/
+    dest: ./kubernetes
+    owner: ubuntu
+    mode: 0755
+
+- name: Run bash install Master kubernetes  script
+  command: sudo bash ./kubernetes/Masterkubinit.sh
+  register: result
+ 
+- name: Wait until script finishes
+  wait_for:
+    path: ./kubernetes/Masterkubinit.sh
+    search_regex: "Kubernetes cluster initialized successfully!"
+    state: present
+  when: result|success
+
+# - name: Generate join command
+#   shell: sudo kubeadm token create --print-join-command
+#   register: join_command_output
+
+# - name: Store join command in a file
+#   copy:
+#     content: "{{ join_command_output.stdout }}"
+#     dest: /tmp/k8s_join_command.txt
+#   delegate_to: localhost

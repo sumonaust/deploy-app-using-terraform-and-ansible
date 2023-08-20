@@ -1,0 +1,10 @@
+# kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - rocket-chat-namespace.yaml
+  - mongodb-statefulset.yaml
+  - rocket-chat-deployment.yaml
+  - rocket-chat-service.yaml
+  - mongodb-service.yaml

@@ -1,0 +1,21 @@
+# ---
+- name: Example Ansible playbook
+  hosts: MasterKubernetes
+  remote_user: ubuntu
+  roles:
+    - kubernetesMaster
+
+- name: Example Ansible playbook
+  hosts: WorkerKubernetes1
+  remote_user: ubuntu
+  roles:
+    - kubernetesWorker
+    
+- name: Example Ansible playbook
+  hosts: WorkerKubernetes2
+  remote_user: ubuntu
+  roles:
+    - kubernetesWorker
+
+
+

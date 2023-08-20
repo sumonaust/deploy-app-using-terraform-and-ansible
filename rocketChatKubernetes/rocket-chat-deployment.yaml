@@ -1,0 +1,40 @@
+# rocket-chat-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rocketchat
+  namespace: rocket-chat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rocketchat
+  template:
+    metadata:
+      labels:
+        app: rocketchat
+    spec:
+      tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+      containers:
+      - name: rocketchat
+        image: registry.rocket.chat/rocketchat/rocket.chat:latest
+        env:
+        - name: MONGO_URL
+          value: "mongodb://mongodb.rocket-chat.svc.cluster.local:27017/rocketchat?replicaSet=rs0"  # Update this value
+        - name: MONGO_OPLOG_URL
+          value: "mongodb://mongodb.rocket-chat.svc.cluster.local:27017/local?replicaSet=rs0"  # Update this value
+        - name: ROOT_URL
+          value: "http://localhost:3000"
+        - name: PORT
+          value: "3000"
+        - name: DEPLOY_METHOD
+          value: "kubernetes"
+        ports:
+        - containerPort: 3000
+          name: rocketchat

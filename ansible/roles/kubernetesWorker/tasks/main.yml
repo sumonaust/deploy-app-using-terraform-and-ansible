@@ -1,0 +1,33 @@
+---
+- name: Create a directory for the kubernetes
+  file:
+    path: ./kubernetes
+    state: directory
+
+- name: Copy Kubernetes files to the remote machine
+  copy:
+    src: ../../../kubernetes/Worker/
+    dest: ./kubernetes
+    owner: ubuntu
+    mode: 0755
+
+- name: Run bash install Worker kubernetes  script
+  command: sudo bash ./kubernetes/Worker-Kubernetes-init.sh
+  register: result
+ 
+# - name: Fetch join command from control machine
+#   synchronize:
+#     src: /tmp/k8s_join_command.txt
+#     dest: /tmp/k8s_join_command.txt
+
+# - name: Execute join command on worker node
+#   shell: "cat /tmp/k8s_join_command.txt | sh"
+#   args:
+#     executable: /bin/bash
+#   become: yes
+#   become_user: root
+
+# - name: Remove join command file from worker node
+#   file:
+#     path: /tmp/k8s_join_command.txt
+#     state: absent

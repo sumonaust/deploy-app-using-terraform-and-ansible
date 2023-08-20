@@ -1,0 +1,6 @@
+[MasterKubernetes]
+3.9.23.214 ansible_ssh_private_key_file=RjeKeys.pem ansible_python_interpreter=/usr/bin/python3
+[WorkerKubernetes1]
+13.42.41.174 ansible_ssh_private_key_file=RjeKeys.pem ansible_python_interpreter=/usr/bin/python3
+[WorkerKubernetes2]
+13.40.219.221 ansible_ssh_private_key_file=RjeKeys.pem ansible_python_interpreter=/usr/bin/python3
